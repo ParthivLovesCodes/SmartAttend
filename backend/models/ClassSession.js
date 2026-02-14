@@ -1,26 +1,26 @@
 const mongoose = require('mongoose');
 
 const classSchema = new mongoose.Schema({
-    name: { type: String, required: true }, // e.g., "Data Structures"
-    subjectCode: { type: String, required: true }, // e.g., "CS-302"
+    name: { type: String, required: true },
+    subjectCode: { type: String, required: true },
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     
     // Who is enrolled?
     students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], 
     
-    // SECURITY: Geofence Coordinates (Where is this class held?)
+    // SECURITY: Geofence (Made optional for now)
     location: {
-        latitude: { type: Number, required: true },
-        longitude: { type: Number, required: true },
-        radius: { type: Number, default: 50 } // meters
+        latitude: { type: Number }, // Removed 'required'
+        longitude: { type: Number }, // Removed 'required'
+        radius: { type: Number, default: 50 }
     },
 
-    // Session Management
+    // Session Management (The "Live" Switch)
     activeSession: {
         sessionId: String, // Random Token
         startTime: Date,
         isActive: { type: Boolean, default: false },
-        currentVisualCode: String // The 4-digit PIN on the board
+        currentVisualCode: String 
     }
 }, { timestamps: true });
 

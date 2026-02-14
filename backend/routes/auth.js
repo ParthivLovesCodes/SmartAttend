@@ -32,7 +32,12 @@ router.post('/register', async (req, res) => {
         await user.save();
 
         // 4. Create a Token (The "Digital Key")
-        const payload = { user: { id: user.id, role: user.role } };
+        const payload = { 
+    user: { 
+        id: user.id,
+        role: user.role // <--- VITAL: Frontend needs this to check permissions
+    } 
+};
         
         jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '5d' }, (err, token) => {
             if (err) throw err;
